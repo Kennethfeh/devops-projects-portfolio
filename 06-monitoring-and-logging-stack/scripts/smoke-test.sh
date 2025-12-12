@@ -23,5 +23,5 @@ wait_for() {
   return 1
 }
 
-wait_for http://localhost:9090/-/ready 40 5
-wait_for http://localhost:3000/api/health 40 5
+wait_for http://127.0.0.1:9090/-/ready 60 5
+wait_for http://127.0.0.1:3000/api/health 60 5
