@@ -2,7 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
-const { nanoid } = require('nanoid');
+// Use CommonJS-friendly build to avoid ESM import issues in Node 18
+const { nanoid } = require('nanoid/non-secure');
 
 const createApp = () => {
   const app = express();
