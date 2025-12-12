@@ -1,0 +1,163 @@
+name: Portfolio CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  kubernetes_microservice:
+    name: Kubernetes microservice app
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 01-kubernetes-microservice-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install and test services
+        run: |
+          set -e
+          for dir in service1 service2 gateway; do
+            echo "Running $dir"
+            (cd "$dir" && npm install && npm run lint && npm test)
+          done
+      - name: Docker builds
+        run: |
+          set -e
+          for dir in service1 service2 gateway; do
+            docker build -t "$dir:ci" "$dir"
+          done
+      - name: Complete
+        run: echo "CI OK - kubernetes microservice app"
+
+  ci_cd_pipeline:
+    name: CI/CD pipeline service
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 02-ci-cd-pipeline-demo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm test
+      - name: Docker build
+        run: docker build -t ci-cd-pipeline-demo:ci .
+      - name: Security scan (simulated)
+        run: echo "Running container scan" && echo "Scan complete"
+      - name: Complete
+        run: echo "CI OK - ci-cd-pipeline-demo"
+
+  fullstack_docker:
+    name: Fullstack Docker app
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 03-fullstack-docker-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Frontend install/test/build
+        run: |
+          cd frontend
+          npm install
+          npm run test
+          npm run build
+      - name: Backend install/lint/test
+        run: |
+          cd backend
+          npm install
+          npm run lint
+          npm test
+      - name: Docker compose build
+        run: docker compose build
+      - name: Integration test
+        run: |
+          docker compose up -d
+          node scripts/integration-test.js
+          docker compose down
+      - name: Complete
+        run: echo "CI OK - fullstack docker app"
+
+  helm_project:
+    name: Helm deployment project
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 04-helm-deployment-project
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: |
+          cd app
+          npm install
+      - name: Lint & test app
+        run: |
+          cd app
+          npm run lint
+          npm test
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.13.0
+      - name: Helm lint
+        run: helm lint helm/app-chart
+      - name: Helm template
+        run: helm template demo helm/app-chart
+      - name: Complete
+        run: echo "CI OK - helm deployment project"
+
+  ansible_config:
+    name: Ansible config management
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 05-ansible-config-management
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install Ansible tooling
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible ansible-lint
+      - name: ansible-lint
+        run: ansible-lint ansible
+      - name: Syntax check
+        run: ansible-playbook -i ansible/inventory.example ansible/playbooks/site.yml --syntax-check
+      - name: Complete
+        run: echo "CI OK - ansible config management"
+
+  monitoring_stack:
+    name: Monitoring & logging stack
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 06-monitoring-and-logging-stack
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compose config
+        run: docker compose config
+      - name: Smoke test
+        run: |
+          chmod +x scripts/smoke-test.sh
+          ./scripts/smoke-test.sh
+      - name: Complete
+        run: echo "CI OK - monitoring stack"
