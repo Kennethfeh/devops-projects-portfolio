@@ -156,6 +156,8 @@ jobs:
       - name: Compose config
         run: docker compose config
       - name: Smoke test
+        env:
+          HOST_ADDR: 127.0.0.1
         run: |
           chmod +x scripts/smoke-test.sh
           ./scripts/smoke-test.sh
