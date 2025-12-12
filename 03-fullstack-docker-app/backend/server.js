@@ -2,11 +2,11 @@ const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
-const { nanoid } = require('nanoid');
+const { randomUUID } = require('crypto');
 
 const createApp = () => {
   const app = express();
-  const notes = [{ id: nanoid(), text: 'Welcome to the Docker demo' }];
+  const notes = [{ id: randomUUID(), text: 'Welcome to the Docker demo' }];
 
   app.use(cors());
   app.use(express.json());
@@ -24,7 +24,7 @@ const createApp = () => {
     if (!text) {
       return res.status(400).json({ error: 'text is required' });
     }
-    const note = { id: nanoid(), text };
+    const note = { id: randomUUID(), text };
     notes.push(note);
     res.status(201).json(note);
   });
