@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kenneth Feh | DevOps Engineer Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__content">
+      <p class="eyebrow">DevOps Engineer · Site Reliability · Cloud Infrastructure</p>
+      <h1>Turning application ideas into production-grade DevOps platforms.</h1>
+      <p>
+        I architect CI/CD systems, container platforms, and observability stacks that let teams ship faster with confidence.
+        Below is a curated set of projects that demonstrate the breadth of my automation work—from Kubernetes service meshes to
+        monitoring stacks.
+      </p>
+      <div class="hero__actions">
+        <a href="https://github.com/Kennethfeh/devops-projects-portfolio" class="btn primary">View Source Repository</a>
+        <a href="#projects" class="btn secondary">Explore Projects</a>
+      </div>
+      <dl class="hero__stats">
+        <div>
+          <dt>Production-ready Projects</dt>
+          <dd>6+</dd>
+        </div>
+        <div>
+          <dt>Automated Workflows</dt>
+          <dd>GitHub Actions · Helm · Ansible</dd>
+        </div>
+        <div>
+          <dt>Cloud Tooling</dt>
+          <dd>AWS · Kubernetes · Docker · Vercel</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="hero__accent">
+      <p>Currently open to DevOps/SRE roles.</p>
+    </div>
+  </header>
+
+  <main>
+    <section id="projects" class="section">
+      <div class="section__heading">
+        <p class="eyebrow">Case Studies</p>
+        <h2>Featured DevOps projects</h2>
+        <p>The modules below link directly to the live code in this portfolio repository. Each card highlights the automation focus, primary stack, and impact.</p>
+      </div>
+      <div class="projects" id="project-grid"></div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="section__heading">
+        <p class="eyebrow">Impact Snapshot</p>
+        <h2>How I approach DevOps engineering</h2>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Automation first</h3>
+          <p>
+            Every repo includes GitHub Actions workflows to lint, test, build Docker images, and run smoke tests. For infrastructure code I rely on Ansible linting and syntax validation before anything reaches production.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Observability baked in</h3>
+          <p>
+            Prometheus, Grafana, Loki, and Promtail ship with reusable dashboards and provisioning files. Even demo workloads expose <code>/healthz</code> and build metadata endpoints to keep pipelines observable.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Security & Reliability</h3>
+          <p>
+            Container builds happen inside CI. Linting enforces least-privilege policies and Helm charts include liveness/readiness probes to ensure stability during rollouts.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Documentation</h3>
+          <p>
+            Each project ships with a README describing architecture diagrams, local development steps, and deployment workflows. Recruiters can inspect any subfolder and understand the intent immediately.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__heading">
+        <p class="eyebrow">Delivery Timeline</p>
+        <h2>From commit to cloud</h2>
+      </div>
+      <ol class="timeline">
+        <li>
+          <h3>Plan & Design</h3>
+          <p>Define SLIs, target platforms, and security guardrails for each workload.</p>
+        </li>
+        <li>
+          <h3>Automate</h3>
+          <p>Codify infrastructure (Helm, Docker Compose, Ansible) and CI/CD workflows.</p>
+        </li>
+        <li>
+          <h3>Observe</h3>
+          <p>Instrument services with health endpoints, structured logging, and dashboards.</p>
+        </li>
+        <li>
+          <h3>Iterate</h3>
+          <p>Continuously test integrations, monitor pipelines, and optimize developer experience.</p>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Designed & coded by Kenneth Feh · <a href="mailto:kennethfeh@example.com">kennethfeh@example.com</a></p>
+  </footer>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>
