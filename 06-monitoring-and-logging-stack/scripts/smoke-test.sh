@@ -6,6 +6,7 @@ trap 'docker compose down' EXIT
 docker compose up -d
 
 HOST_ADDR=${HOST_ADDR:-127.0.0.1}
+echo "Probing services via host $HOST_ADDR"
 
 wait_for() {
   local url=$1
@@ -13,7 +14,7 @@ wait_for() {
   local delay=${3:-5}
 
   for ((i=1; i<=attempts; i++)); do
-    if curl --fail --silent --show-error "$url" >/dev/null; then
+    if curl --fail --silent --show-error --ipv4 "$url" >/dev/null; then
       echo "Service ready: $url"
       return 0
     fi
