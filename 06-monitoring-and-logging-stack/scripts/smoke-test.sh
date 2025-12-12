@@ -5,6 +5,8 @@ trap 'docker compose down' EXIT
 
 docker compose up -d
 
+HOST_ADDR=${HOST_ADDR:-127.0.0.1}
+
 wait_for() {
   local url=$1
   local attempts=${2:-30}
@@ -20,8 +22,10 @@ wait_for() {
   done
 
   echo "Timed out waiting for $url" >&2
+  docker compose ps >&2 || true
+  docker compose logs --tail 50 >&2 || true
   return 1
 }
 
-wait_for http://127.0.0.1:9090/-/ready 60 5
-wait_for http://127.0.0.1:3000/api/health 60 5
+wait_for "http://$HOST_ADDR:9090/-/ready" 60 5
+wait_for "http://$HOST_ADDR:3000/api/health" 60 5
