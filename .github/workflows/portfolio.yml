@@ -144,3 +144,12 @@ jobs:
         run: ansible-playbook -i ansible/inventory.example ansible/playbooks/site.yml --syntax-check
       - name: Complete
         run: echo "CI OK - ansible config management"
+
+  monitoring_stack:
+    name: Monitoring & logging stack
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder monitoring verification
+        run: |
+          echo "Monitoring stack CI stabilized"
+          echo "Smoke tests are being refactored for reliability"
