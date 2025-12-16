@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  ENABLE_MONITORING_CI: false
-
 jobs:
   kubernetes_microservice:
     name: Kubernetes microservice app
@@ -147,23 +144,3 @@ jobs:
         run: ansible-playbook -i ansible/inventory.example ansible/playbooks/site.yml --syntax-check
       - name: Complete
         run: echo "CI OK - ansible config management"
-
-  monitoring_stack:
-    name: Monitoring & logging stack
-    if: ${{ env.ENABLE_MONITORING_CI == 'true' }}
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: 06-monitoring-and-logging-stack
-    steps:
-      - uses: actions/checkout@v4
-      - name: Compose config
-        run: docker compose config
-      - name: Smoke test
-        env:
-          HOST_ADDR: 127.0.0.1
-        run: |
-          chmod +x scripts/smoke-test.sh
-          ./scripts/smoke-test.sh
-      - name: Complete
-        run: echo "CI OK - monitoring stack"
